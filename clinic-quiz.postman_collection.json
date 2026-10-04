@@ -1,0 +1,115 @@
+{
+  "info": {
+    "name": "Clinic Quiz",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "A1 - Patients by last name",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8080/api/patients/by-last-name?lastName=uwase"
+      }
+    },
+    {
+      "name": "A2 - Appointments by status",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8080/api/appointments/by-status?status=SCHEDULED"
+      }
+    },
+    {
+      "name": "A3 - Appointments between dates",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8080/api/appointments/between?start=2026-10-01&end=2026-10-31"
+      }
+    },
+    {
+      "name": "A4 - No double booking (POST, expect 409)",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {"mode": "raw", "raw": "{\"appointmentDate\":\"2026-10-05\",\"status\":\"SCHEDULED\",\"doctor\":{\"id\":1},\"patient\":{\"id\":2}}"},
+        "url": "http://localhost:8080/api/appointments/save"
+      }
+    },
+    {
+      "name": "B1 - Doctors by specialization",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8080/api/doctors/by-specialization?name=cardiology"
+      }
+    },
+    {
+      "name": "B2 - Doctors without office",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8080/api/doctors/without-office"
+      }
+    },
+    {
+      "name": "B3 - Unused specializations",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8080/api/specializations/unused"
+      }
+    },
+    {
+      "name": "B4 - Patients of doctor",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8080/api/patients/of-doctor/1"
+      }
+    },
+    {
+      "name": "B4 - Invalid doctor (expect 404)",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8080/api/patients/of-doctor/999"
+      }
+    },
+    {
+      "name": "C1 - Stats by status",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8080/api/appointments/stats/by-status"
+      }
+    },
+    {
+      "name": "C2 - Frequent patients",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8080/api/patients/frequent?min=3"
+      }
+    },
+    {
+      "name": "C3 - Busiest office",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8080/api/offices/busiest"
+      }
+    },
+    {
+      "name": "C4 - Cancel doctor day (PATCH)",
+      "request": {
+        "method": "PATCH",
+        "url": "http://localhost:8080/api/appointments/cancel-day?doctorId=1&date=2026-10-05"
+      }
+    },
+    {
+      "name": "Bonus 1 - Pagination",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8080/api/appointments/page?page=0&size=5&sort=appointmentDate,desc"
+      }
+    },
+    {
+      "name": "Bonus 2 - Delete cancelled before (DELETE)",
+      "request": {
+        "method": "DELETE",
+        "url": "http://localhost:8080/api/appointments/cancelled-before?date=2026-11-01"
+      }
+    }
+  ]
+}
