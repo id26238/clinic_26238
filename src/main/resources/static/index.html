@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinic Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Clinic Management System</h1>
+</header>
+
+<nav class="tabs">
+    <button class="tab-btn active" data-tab="doctors">Doctors</button>
+    <button class="tab-btn" data-tab="patients">Patients</button>
+    <button class="tab-btn" data-tab="offices">Offices</button>
+    <button class="tab-btn" data-tab="specializations">Specializations</button>
+    <button class="tab-btn" data-tab="queries">Queries</button>
+</nav>
+
+<main>
+
+    <!-- DOCTORS -->
+    <section id="tab-doctors" class="tab-content active">
+        <h2>Doctors</h2>
+        <form id="form-doctor" class="form-card">
+            <input type="hidden" id="doctor-id">
+            <div class="form-row">
+                <label>First Name <input type="text" id="doctor-firstName" required></label>
+                <label>Last Name <input type="text" id="doctor-lastName" required></label>
+                <label>Office <select id="doctor-office"></select></label>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Save Doctor</button>
+                <button type="button" class="btn-secondary" onclick="resetDoctorForm()">Cancel</button>
+            </div>
+        </form>
+        <table class="data-table" id="table-doctors">
+            <thead><tr><th>ID</th><th>First Name</th><th>Last Name</th><th>Office</th><th>Actions</th></tr></thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <!-- PATIENTS -->
+    <section id="tab-patients" class="tab-content">
+        <h2>Patients</h2>
+        <form id="form-patient" class="form-card">
+            <input type="hidden" id="patient-id">
+            <div class="form-row">
+                <label>First Name <input type="text" id="patient-firstName" required></label>
+                <label>Last Name <input type="text" id="patient-lastName" required></label>
+                <label>Phone <input type="text" id="patient-phoneNumber" required></label>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Save Patient</button>
+                <button type="button" class="btn-secondary" onclick="resetPatientForm()">Cancel</button>
+            </div>
+        </form>
+        <table class="data-table" id="table-patients">
+            <thead><tr><th>ID</th><th>First Name</th><th>Last Name</th><th>Phone</th><th>Actions</th></tr></thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <!-- OFFICES -->
+    <section id="tab-offices" class="tab-content">
+        <h2>Offices</h2>
+        <form id="form-office" class="form-card">
+            <input type="hidden" id="office-id">
+            <div class="form-row">
+                <label>Room Number <input type="text" id="office-roomNumber" required></label>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Save Office</button>
+                <button type="button" class="btn-secondary" onclick="resetOfficeForm()">Cancel</button>
+            </div>
+        </form>
+        <table class="data-table" id="table-offices">
+            <thead><tr><th>ID</th><th>Room Number</th><th>Actions</th></tr></thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <!-- SPECIALIZATIONS -->
+    <section id="tab-specializations" class="tab-content">
+        <h2>Specializations</h2>
+        <form id="form-spec" class="form-card">
+            <input type="hidden" id="spec-id">
+            <div class="form-row">
+                <label>Name <input type="text" id="spec-name" required></label>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Save Specialization</button>
+                <button type="button" class="btn-secondary" onclick="resetSpecForm()">Cancel</button>
+            </div>
+        </form>
+        <table class="data-table" id="table-specs">
+            <thead><tr><th>ID</th><th>Name</th><th>Actions</th></tr></thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <!-- QUERIES -->
+    <section id="tab-queries" class="tab-content">
+        <h2>Assignment Queries</h2>
+
+        <div class="query-box">
+            <div class="query-head">
+                <strong>PENDING appointments of a doctor, ordered by date</strong>
+                <button class="btn-primary" onclick="runQ1()">Run</button>
+            </div>
+            <label style="display:block;margin:8px 0 0;">Doctor ID:</label>
+            <input type="text" id="q1-doctorId" style="width:100%;padding:8px;font-family:monospace;">
+            <div id="q1-result" class="query-result"></div>
+        </div>
+
+        <div class="query-box">
+            <div class="query-head">
+                <strong>PENDING appointments whose date has passed</strong>
+                <button class="btn-primary" onclick="runQ2()">Run</button>
+            </div>
+            <div id="q2-result" class="query-result"></div>
+        </div>
+
+        <div class="query-box">
+            <div class="query-head">
+                <strong>Number of appointments per doctor (busiest first)</strong>
+                <button class="btn-primary" onclick="runQ3()">Run</button>
+            </div>
+            <div id="q3-result" class="query-result"></div>
+        </div>
+
+        <div class="query-box">
+            <div class="query-head">
+                <strong>Appointments of doctors with a specialization</strong>
+                <button class="btn-primary" onclick="runQ4()">Run</button>
+            </div>
+            <label style="display:block;margin:8px 0 0;">Specialization name:</label>
+            <input type="text" id="q4-specName" value="Cardiology" style="width:100%;padding:8px;">
+            <div id="q4-result" class="query-result"></div>
+        </div>
+
+        <div class="query-box">
+            <div class="query-head">
+                <strong>Page 1 (10 per page) of a doctor's appointments</strong>
+                <button class="btn-primary" onclick="runQ5()">Run</button>
+            </div>
+            <label style="display:block;margin:8px 0 0;">Doctor ID:</label>
+            <input type="text" id="q5-doctorId" style="width:100%;padding:8px;font-family:monospace;">
+            <div id="q5-result" class="query-result"></div>
+        </div>
+    </section>
+
+</main>
+
+<div id="toast" class="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
